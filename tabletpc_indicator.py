@@ -11,49 +11,37 @@ def main():
     indicator.set_menu(build_menu())
     gtk.main()
 
-def turnLeft(widget):
-    os.system("xrandr --output eDP1 --rotate left")
+def rotateScreen(direction):
+    os.system("xrandr --output eDP1 --rotate " + direction)
 
-def turnRight(widget):
-    os.system("xrandr --output eDP1 --rotate right")
-
-def turnInverted(widget):
-    os.system("xrandr --output eDP1 --rotate inverted")
-
-def turnNormal(widget):
-    os.system("xrandr --output eDP1 --rotate normal")
-
-def disableTouchpad(widget):
-    os.system("gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled")
-
-def enableTouchpad(widget):
-    os.system("gsettings set org.gnome.desktop.peripherals.touchpad send-events enabled")
+def setTouchpadStatus(status):
+    os.system("gsettings set org.gnome.desktop.peripherals.touchpad send-events " + status)
 
 def build_menu():
     menu = gtk.Menu()
 
     item_quit = gtk.MenuItem('Left')
-    item_quit.connect('activate', turnLeft)
+    item_quit.connect('activate', lambda x: rotateScreen("left"))
     menu.append(item_quit)
 
     item_quit = gtk.MenuItem('Right')
-    item_quit.connect('activate', turnRight)
+    item_quit.connect('activate', lambda x: rotateScreen("right"))
     menu.append(item_quit)
 
     item_quit = gtk.MenuItem('Inverted')
-    item_quit.connect('activate', turnInverted)
+    item_quit.connect('activate', lambda x: rotateScreen("inverted"))
     menu.append(item_quit)
 
     item_quit = gtk.MenuItem('Normal')
-    item_quit.connect('activate', turnNormal)
+    item_quit.connect('activate', lambda x: rotateScreen("normal"))
     menu.append(item_quit)
 
     item_quit = gtk.MenuItem('Disable touchpad')
-    item_quit.connect('activate', disableTouchpad)
+    item_quit.connect('activate', lambda x: setTouchpadStatus("disabled"))
     menu.append(item_quit)
 
     item_quit = gtk.MenuItem('Enable touchpad')
-    item_quit.connect('activate', enableTouchpad)
+    item_quit.connect('activate', lambda x: setTouchpadStatus("enabled"))
     menu.append(item_quit)
 
     item_quit = gtk.MenuItem('Quit')
